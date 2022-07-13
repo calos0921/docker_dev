@@ -1,0 +1,33 @@
+version: "3.2"
+networks:
+  dev:
+
+volumes:
+  gem_cache:
+  shared_data:
+
+services:
+  rails_app:
+    build:
+      context: ./rails_app
+      dockerfile: Dockerfile
+    image: rails6_dev_dockerized
+    volumes:
+      - shared_data:/var/shared
+      - gem_cache:/usr/local/bundle/gems
+      - ./rails_app:/rails_app
+    ports:
+      - 3303:3303
+    stdin_open: true #容器標準輸入保持開啟
+    tty: true #要docker分配虛擬終端綁到容器標準輸出入
+    entrypoint: docker-entrypoint.sh
+    command: bundle exec rails server -p 3303 -b 0.0.0.0 --pid ./tmp/pids/green.pid -e development #啟動rails server
+
+    environment:
+      RAILS_ENV: development
+      DB_ADAPTER: sqlite3 # mysql, postgresql, sqlite3, oracle, sqlserver, jdbcmysql, jdbcsqlite3, jdbcpostgresql, jdbc #指定db
+      RAILS_VERSION: 6.1.4 #指定rails版本
+    networks:
+      - dev
+    env_file:
+      - ".env"
