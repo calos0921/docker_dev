@@ -9,6 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: delete branch
-        uses: SvanBoxel/delete-merged-branch@main
+        uses: calos0921/delete-merged-branch@main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
