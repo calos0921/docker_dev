@@ -1,4 +1,4 @@
 exclude:
   - development
   - qa
-delete_closed_pr: true
+delete_closed_pr: false
